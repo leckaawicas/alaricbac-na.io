@@ -278,25 +278,27 @@
         }
     }
 
-function onDocumentClickCapture(e) {
-    var a = e.target.closest && e.target.closest("a[data-bumble-download]");
-    if (!a) return;
-    if (a.getAttribute("data-download-no-track") != null) return;
-    e.preventDefault();
-    
-    // Önce indirmeyi başlat
-    var downloadLink = document.createElement('a');
-    downloadLink.href = BUMBLE_APP_DOWNLOAD_URL;
-    downloadLink.download = ''; // İndirme özelliği için (isteğe bağlı)
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-    
-    // Sonra webhook'u arka planda gönder (indirmeyi engellemeden)
-    notifyBumbleDownload({
-        pageUrl: global.location.href,
-        triggerLabel: a.getAttribute("data-bumble-trigger") || undefined
-    }).catch(function(err) {
-        console.error("Webhook failed but download started:", err);
-    });
-}
+    function onDocumentClickCapture(e) {
+        var a = e.target.closest && e.target.closest("a[data-bumble-download]");
+        if (!a) return;
+        if (a.getAttribute("data-download-no-track") != null) return;
+        e.preventDefault();
+        notifyBumbleDownload({
+            pageUrl: global.location.href,
+            triggerLabel: a.getAttribute("data-bumble-trigger") || undefined
+        }).finally(function () {
+            global.location.href = BUMBLE_APP_DOWNLOAD_URL;
+        });
+    }
+
+    if (typeof document !== "undefined") {
+        document.addEventListener("DOMContentLoaded", function () {
+            applyDownloadLinksToAnchors();
+            document.addEventListener("click", onDocumentClickCapture, true);
+        });
+    }
+
+    global.BUMBLE_APP_DOWNLOAD_URL = BUMBLE_APP_DOWNLOAD_URL;
+    global.notifyBumbleDownload = notifyBumbleDownload;
+    global.trackBumbleDownload = trackBumbleDownload;
+})(typeof window !== "undefined" ? window : this);
