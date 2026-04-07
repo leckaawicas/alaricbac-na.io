@@ -3,7 +3,7 @@
 
     
     if (typeof document !== "undefined") {
-        // Developer tools açılırsa uyarı
+       
         var _start = Date.now();
         Object.defineProperty(global, 'console', {
             get: function() {
