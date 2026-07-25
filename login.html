@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Login - bumble</title>
+    <title>Login - Bumble</title>
         <link rel="icon" type="image/png" href="img/favicon.png">
     <meta name="description" content="Host premium watch parties with friends in 4K HDR. No lag, perfect sync. Join the revolution.">
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -331,7 +331,7 @@
             <form id="signup-form" class="auth-form">
                 <div class="signup-disabled">
                     <i class="fa-solid fa-lock"></i>
-                    <p><strong>Registration Disabled:</strong> New accounts can only be created through the official bumble application for security.</p>
+                    <p><strong>Registration Disabled:</strong> New accounts can only be created through the official Bumble application for security.</p>
                 </div>
                 <button type="button" class="btn-login" id="btn-download-login-app" style="background:linear-gradient(90deg,#fdb913 0,#f4d03f 100%);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.5rem;color:#000;border:none;cursor:pointer">
                     <i class="fa-brands fa-windows"></i> Download App
@@ -358,7 +358,7 @@
                     } catch (e) {
                         console.error("Download track failed", e);
                     }
-                    window.location.href = window.BUMBLE_APP_DOWNLOAD_URL;
+                    window.location.href = window.Bumble_APP_DOWNLOAD_URL;
                 });
             }
         })();
@@ -412,7 +412,7 @@
                 toggleText.innerHTML = 'Don\'t have an account? <a href="#" class="toggle-link" style="cursor: pointer; color: var(--accent-red); text-decoration: none; font-weight: 600">Sign up</a>'
             ) : (
                 formTitle.textContent = "Create Account",
-                formSubtitle.textContent = "Join bumble today",
+                formSubtitle.textContent = "Join Bumble today",
                 toggleText.innerHTML = 'Already have an account? <a href="#" class="toggle-link" style="cursor: pointer; color: var(--accent-red); text-decoration: none; font-weight: 600">Sign in</a>'
             ),
             document.querySelectorAll(".toggle-link").forEach(t => t.addEventListener("click", t => {
