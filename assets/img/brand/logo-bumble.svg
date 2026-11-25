@@ -1,0 +1,13 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hexagon background -->
+  <path d="M100 20L170 60V140L100 180L30 140V60L100 20Z" fill="#1A1A1A"/>
+  
+  <!-- Top bar -->
+  <rect x="75" y="65" width="50" height="20" rx="10" fill="#FFC107"/>
+  
+  <!-- Middle bar (longer) -->
+  <rect x="55" y="95" width="90" height="20" rx="10" fill="#FFC107"/>
+  
+  <!-- Bottom bar -->
+  <rect x="80" y="125" width="40" height="20" rx="10" fill="#FFC107"/>
+</svg>
