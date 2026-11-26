@@ -54,6 +54,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .nav-shell{position:fixed;top:0;width:100%;z-index:1000;background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.05);padding:1.2rem 0}
 .nav{height:72px;display:flex;align-items:center;gap:28px;position:relative;z-index:2}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:24px;letter-spacing:-.03em;color:var(--cream)}
+.brand .brand-series{color:var(--butter)}
 .brand img{width:28px;height:28px;object-fit:contain;flex-shrink:0;transition:transform .25s ease}
 .brand:hover img{transform:rotate(-6deg)}
 .nav-links{display:flex;gap:4px;margin:auto;font-size:14px;color:var(--dust)}
